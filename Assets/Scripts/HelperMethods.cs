@@ -59,16 +59,24 @@ namespace RNGalaxy
             return points;
         }
 
-
-        // Extension methods
-        public static HashSet<MyVector3> ToMyVector3(this HashSet<Vector3> vectors)
+        /// <summary>
+        /// Generates a number n of tectonic plates, with 2/3rds being small clustered plates, and 1/3rd being big plates.
+        /// </summary>
+        /// <returns>A hashset of Vector3 points.</returns>
+        public static HashSet<Vector3> GenerateMixedPointClustersOnSphere(int n, float radius)
         {
-            HashSet<MyVector3> myVectors = new HashSet<MyVector3>();
-            foreach (Vector3 vector in vectors)
-            {
-                myVectors.Add(vector.ToMyVector3());
-            }
-            return myVectors;
+            int quotient = n / 3;
+            int remainder = n % 3;
+
+            int numBigPlates = quotient;
+            int numSmallPlates = 2 * quotient + remainder;
+
+            HashSet<Vector3> randomPoints = GenerateRandomPointsOnSphere(numBigPlates, radius);
+            HashSet<Vector3> randomClusters = GeneratePointClustersOnSphere(numSmallPlates, radius);
+            HashSet<Vector3> points = new HashSet<Vector3>(randomPoints);
+            points.UnionWith(randomClusters);
+
+            return points;
         }
     }
 }

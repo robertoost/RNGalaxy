@@ -19,19 +19,20 @@ public class CrustGeneratorEditor : Editor
             Quaternion rotation = tr.rotation;
             Vector3 center = tr.position;
             float radius = t.radius;
+            List<Plate> plates = t.crust.plates;
 
             Random.InitState(t.seed);
 
 
-            for (int i = 0; i < t.plates.Count; i++)
+            for (int i = 0; i < plates.Count; i++)
             {
-                Plate plate = t.plates[i];
+                Plate plate = plates[i];
                 PlateType plateType = plate.plateType;
 
                 Handles.color = plateType == PlateType.continental ? Color.green : Color.blue;
 
                 Vector3 drawPoint = plate.center;
-                drawPoint = rotation * drawPoint + center;
+                drawPoint = rotation * (radius * drawPoint.normalized) + center;
 
                 Handles.SphereHandleCap(i + 500, drawPoint, Quaternion.identity, 0.1f, EventType.Repaint);
 

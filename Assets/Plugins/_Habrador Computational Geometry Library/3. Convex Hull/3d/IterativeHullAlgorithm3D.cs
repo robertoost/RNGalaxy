@@ -31,7 +31,7 @@ namespace Habrador_Computational_Geometry
 
             //timer.Stop();
 
-            //Debug.Log($"Testrahedron {timer.ElapsedMilliseconds/1000f}");
+            //Debug.Log($"Testrahedron {timer.ElapsedMilliseconds / 1000f}");
 
             //Debug.Log(convexHull.faces.Count);
 
@@ -149,7 +149,7 @@ namespace Habrador_Computational_Geometry
                 //Connect all new triangles and the triangles on the border, 
                 //so each edge has an opposite edge or flood filling will be impossible
                 //timer.Start();
-                //convexHull.ConnectAllEdges();
+                //convexHull.ConnectAllEdgesFast();
                 //timer.Stop();
 
 
@@ -161,7 +161,7 @@ namespace Habrador_Computational_Geometry
                 //debugCounter += 1;
             }
 
-            //Debug.Log($"Connect half-edges took {timer.ElapsedMilliseconds/1000f} seconds");
+            Debug.Log($"Connect half-edges took {timer.ElapsedMilliseconds / 1000f} seconds");
 
             Debug.Log($"Removed {removedPointsCounter} points during the construction of the hull because they were inside the hull");
 

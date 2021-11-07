@@ -6,8 +6,14 @@ namespace Habrador_Computational_Geometry
 {
     public static class Delaunay3DToVoronoiAlgorithm 
     {
+        public enum VoronoiCenter
+        {
+            Circumcenter = 0,
+            Centroid = 1
+        }
+
         //Generate a Voronoi diagram in 3d space given a Delaunay triangulation in 3d space
-        public static HashSet<VoronoiCell3> GenerateVoronoiDiagram(HalfEdgeData3 delaunayTriangulation)
+        public static HashSet<VoronoiCell3> GenerateVoronoiDiagram(HalfEdgeData3 delaunayTriangulation, VoronoiCenter center = VoronoiCenter.Circumcenter)
         {
             //If we dont need the voronoi sitePos, which is the center of the voronoi cell, we can use the half-edge data structure
             //If not we have the create a child class for voronoi
@@ -25,8 +31,8 @@ namespace Habrador_Computational_Geometry
                 MyVector3 p2 = triangle.edge.nextEdge.v.position;
                 MyVector3 p3 = triangle.edge.nextEdge.nextEdge.v.position;
 
-                MyVector3 circleCenter = _Geometry.CalculateCircleCenter(p1, p2, p3);
-
+                MyVector3 centerPoint = center == VoronoiCenter.Circumcenter ? _Geometry.CalculateCircleCenter(p1, p2, p3) : _Geometry.CalculateTriangleCenter(p1, p2, p3);
+                
                 //https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/ suggested circleCenter should be moved to get a better surface
                 //But it generates a bad result
                 //float d = Mathf.Sqrt(circleCenter.x * circleCenter.x + circleCenter.y * circleCenter.y + circleCenter.z * circleCenter.z);
@@ -35,7 +41,7 @@ namespace Habrador_Computational_Geometry
 
                 //circleCenter = circleCenterMove;
 
-                circleCenterLookup.Add(triangle, circleCenter);
+                circleCenterLookup.Add(triangle, centerPoint);
             }
 
 
