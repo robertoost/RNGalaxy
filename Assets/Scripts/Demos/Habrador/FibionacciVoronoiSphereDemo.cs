@@ -18,6 +18,7 @@ namespace RNGalaxy
         public float jitter = 0.5f;
 
         public VoronoiCenter centerType;
+        public bool removeInnerPoints = true;
 
         private Vector3[] points;
         private HashSet<VoronoiCell3> voronoiCells;
@@ -56,7 +57,7 @@ namespace RNGalaxy
 
             stopWatch.Restart();
             // Generate a convex hull which will serve as a 3D Delaunay Triangulation of the fibionacci points.
-            convexHull = IterativeHullAlgorithm3D.GenerateConvexHull(normalizedPoints, false);
+            convexHull = IterativeHullAlgorithm3D.GenerateConvexHull(normalizedPoints, false, removeInnerPoints: removeInnerPoints);
 
             Log($"Generating convex hull for {stopWatch.ElapsedMilliseconds / 1000f} seconds.");
             stopWatch.Restart();

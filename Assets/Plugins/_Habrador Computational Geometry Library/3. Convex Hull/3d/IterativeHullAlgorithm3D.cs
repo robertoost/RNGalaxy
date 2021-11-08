@@ -18,7 +18,7 @@ namespace Habrador_Computational_Geometry
         //such as needles where one edge is much shorter than the other edges in the triangle</param>
         /// <param name="normalizer">Is only needed for debugging</param>
         /// <returns></returns>
-        public static HalfEdgeData3 GenerateConvexHull(HashSet<MyVector3> points, bool removeUnwantedTriangles, Normalizer3 normalizer = null)
+        public static HalfEdgeData3 GenerateConvexHull(HashSet<MyVector3> points, bool removeUnwantedTriangles, Normalizer3 normalizer = null, bool removeInnerPoints = true)
         {
             HalfEdgeData3 convexHull = new HalfEdgeData3();
 
@@ -50,16 +50,19 @@ namespace Habrador_Computational_Geometry
 
             foreach (MyVector3 p in pointsToAdd)
             {
-                //Is this point within the tetrahedron
-                bool isWithinHull = _Intersections.PointWithinConvexHull(p, convexHull);
-
-                if (isWithinHull)
+                if (removeInnerPoints)
                 {
-                    points.Remove(p);
+                    //Is this point within the tetrahedron
+                    bool isWithinHull = _Intersections.PointWithinConvexHull(p, convexHull);
 
-                    removedPointsCounter += 1;
+                    if (isWithinHull)
+                    {
+                        points.Remove(p);
 
-                    continue;
+                        removedPointsCounter += 1;
+
+                        continue;
+                    }
                 }
 
 
