@@ -23,6 +23,9 @@ namespace RNGalaxy
 
         public float amplitude = 1f;
 
+        private float perlinMin = -Mathf.Sqrt(3) / 2;
+        private float perlinMax = Mathf.Sqrt(3) / 2;
+
         private void OnValidate()
         {
             if (!Application.isPlaying)
@@ -44,6 +47,8 @@ namespace RNGalaxy
             generatedMesh = Instantiate(planetMesh);
 
             planetMeshFilter.mesh = generatedMesh;
+
+            transform.localScale = Vector3.one * 2 * planet.radius;
 
             SampleMesh(planetMesh);
             RaiseVertices();
@@ -77,6 +82,7 @@ namespace RNGalaxy
 
         private void RaiseVertices()
         {
+            Debug.Log("Raising vertices!");
             Vector3[] vertices = planetMeshFilter.mesh.vertices;
             foreach (VoronoiTile tile in planet.voronoiTiles)
             {
@@ -87,11 +93,16 @@ namespace RNGalaxy
 
                     Vector3 elevation = elevationAmplification * (tile.elevation * normalizedVertex);
 
-                    if (tile.distanceToEdge == -1 && tile.plate.plateType == TectonicPlate.PlateType.Continental)
+                    if (tile.plate.plateType == TectonicPlate.PlateType.Continental)
                     {
-                        float height = Perlin.Noise(vertex);
-                        float roughness = amplitude * 0.01f;
-                        elevation += (vertex.normalized * height * roughness);
+                        float perlinNoise = Perlin.Noise(vertex);
+                        float mountainHeight = Mathf.InverseLerp(perlinMin, perlinMax, perlinNoise);
+                        //if (mountainHeight == 0)
+                        //{
+                        //    throw new System.Exception();
+                        //}
+                        float roughness = amplitude * 1f;
+                        elevation += (vertex.normalized * mountainHeight * roughness);
                     }
 
                     vertices[vertexID] = vertex + elevation;

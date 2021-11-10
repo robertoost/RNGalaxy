@@ -19,20 +19,17 @@ namespace RNGalaxy
         [Range(100, 10000)]
         public int numPoints = 100;
 
-        [Range(4f, 16f)]
+        [Range(6f, 8f)]
         public float radius = 8f;
 
         [Range(1, 200)]
         public int numPlates = 30;
-
-        [Range(1, 10)]
-        public int bigPlateRatio = 3;
         
         [Range(0, 1)]
         public float jitter = 0f;
 
-        const float ELEVATION_MIN = 2f;
-        const float ELEVATION_MAX = 5f;
+        const float ELEVATION_MIN = 1f;
+        const float ELEVATION_MAX = 1.5f;
 
         private ConvexHull<DefaultVertex, DefaultConvexFace<DefaultVertex>> convexHull;
         [System.NonSerialized]
@@ -94,7 +91,7 @@ namespace RNGalaxy
 
             SetPlateTypes(plates);
             SetTileElevations(plates);
-
+            //SetEdgeDistanceValues(plates);
             return plates;
 
 
@@ -166,9 +163,6 @@ namespace RNGalaxy
                 VoronoiTile expandTile = expansionQueue[expansionTileId];
                 expansionQueue.RemoveAt(expansionTileId);
 
-                // TODO: Write a full function that takes boundary distance into account
-                bool expanded = false;
-
                 // For each edge of this tile, try to add the neighboring tile to the plate.
                 foreach (VoronoiTileEdge expandTileEdge in expandTile.edges)
                 {
@@ -177,6 +171,10 @@ namespace RNGalaxy
                     VoronoiTile neighborTile = expandTileEdge.oppositeTile;
                     if (neighborTile.plate != null)
                     {
+                        if (neighborTile.plate != tectonicPlate)
+                        {
+                            expandTile.distanceToEdge = -1;
+                        }
                         continue;
                     }
                     
@@ -186,14 +184,6 @@ namespace RNGalaxy
                     
                     // Then add the tile to the expansion queue.
                     expansionQueue.Add(neighborTile);
-
-                    expanded = true;
-                }
-
-                // Set -1 temporarily.
-                if (!expanded)
-                {
-                    expandTile.distanceToEdge = -1;
                 }
 
                 // If the expansion queue is empty, this plate can no longer expand.
@@ -226,40 +216,70 @@ namespace RNGalaxy
 
         private void SetTileElevations(List<TectonicPlate> plates)
         {
-            foreach (TectonicPlate plate in plates)
+            Dictionary<TectonicPlate, List<bool>> plateCollisions = new Dictionary<TectonicPlate, List<bool>>();
+
+            for (int i=0; i < plates.Count; i++)
             {
-                int sign = plate.plateType == PlateType.Continental ? 1 : -1;
-                float elevation = sign * Random.Range(ELEVATION_MIN, ELEVATION_MAX);
+                TectonicPlate plate = plates[i];
+                List<bool> collisionList = new List<bool>();
+                plateCollisions[plate] = collisionList;
+
+                foreach (TectonicPlate otherPlate in plates)
+                {
+                    bool collision;
+                    if (plate.plateType != otherPlate.plateType)
+                    {
+                        collision = Random.Range(0, 1) > 0.9f;
+                    } else
+                    {
+                        collision = Random.Range(0, 1) > 0.4f;
+                    }
+                    collisionList.Add(collision);
+                }
+            }
+
+            for (int i = 0; i < plates.Count; i++)
+            {
+                TectonicPlate plate = plates[i];
+
                 foreach (VoronoiTile tile in plate.plateTiles)
                 {
+                    int sign = plate.plateType == PlateType.Continental ? 1 : -3;
+                    float elevation = sign * Random.Range(ELEVATION_MIN, ELEVATION_MAX);
 
                     tile.elevation = elevation;
+
+                    // We've found a border tile.
+                    if (tile.distanceToEdge == -1 && plate.plateType == PlateType.Continental)
+                    {
+                        VoronoiTileEdge edge = tile.edges.First(edge => edge.oppositeTile.plate != plate);
+
+                        bool collision = plateCollisions[edge.oppositeTile.plate][i];
+
+                        //if (DetectCollision(otherEdge.tile.plate, plate))
+                        if (collision)
+                        {
+                            tile.elevation = 8f;
+                        }
+                    }
                 }
             }
         }
 
-        // TODO: Set distance to edge properly.
-        //private void SetEdgeDistanceValues(List<TectonicPlate> plates)
-        //{
-        //    foreach (TectonicPlate plate in plates)
-        //    {
-        //        VoronoiTile boundaryTile = plate.plateTiles[plate.plateTiles.Count - 1];
-        //        VoronoiTileEdge plateEdge = boundaryTile.edges[0];
-        //        VoronoiTileEdge 
-
-
-        //        if (plateEdge.oppositeTile.plate != plate)
-        //        {
-                    
-        //        }
-
-        //        foreach (VoronoiTileEdge tileEdge in boundaryTile.edges)
-        //        {
-        //            if ()
-        //        }
-
-        //    }
-        //}
         
+
+        // TODO: True collision detection.
+        // Dummy method. Should use actual geoditical movement, but uses basic 2d directions instead.
+        // Is messy, but works.
+        //private bool DetectCollision(TectonicPlate plateA, TectonicPlate plateB)
+        //{
+        //    // If the direction vectors form an acute angle, detect a collision.
+        //    return Vector2.Dot(plateA.direction, plateB.direction) > 0;
+        //}
+
+        //private void SetTileElevation(int distanceToEdge, VoronoiTile tile)
+        //{
+
+        //}
     }
 }

@@ -36,6 +36,8 @@ namespace RNGalaxy
         public MyVector3 sitePos;
         public VoronoiTile tile;
         public VoronoiTile oppositeTile;
+        public VoronoiTileEdge nextEdge;
+        public VoronoiTileEdge prevEdge;
 
         public VoronoiTileEdge(MyVector3 p1, MyVector3 p2, MyVector3 sitePos)
         {
