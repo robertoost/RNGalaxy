@@ -32,8 +32,6 @@ namespace RNGalaxy
         private ConvexHull<DefaultVertex, DefaultConvexFace<DefaultVertex>> convexHull;
         private HashSet<VoronoiCell3> voronoiCells;
         private HashSet<VoronoiTile> voronoiTiles;
-        private List<HalfEdgeFace3> halfEdgeFaceList;
-
 
         // Start is called before the first frame update
         void OnValidate()
@@ -41,7 +39,7 @@ namespace RNGalaxy
             UnityEngine.Random.InitState(randomSeed);
             
             // Convert points to a list of arrays containing doubles.
-            Vector3[] points = FibionacciSphere.GeneratePoints(numPoints, 8, jitter);
+            Vector3[] points = FibionacciSphere.GeneratePoints(numPoints, radius, jitter);
             List<double[]> convertedPoints = points.ToDoubleArrayList();
 
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -84,73 +82,15 @@ namespace RNGalaxy
 
             if (StoreVoronoiNeighborData)
             {
-                DrawVoronoiTiles(pos, rot);
-                HighlightTileNeighbors(pos, rot);
+                GizmoHelperMethods.DrawVoronoiTiles(pos, rot, radius, voronoiTiles);
+                GizmoHelperMethods.HighlightTileNeighbors(pos, rot, radius, voronoiTiles);
             }
             else
             {
-                DrawVoronoiCells(pos, rot);
-
+                GizmoHelperMethods.DrawVoronoiCells(pos, rot, radius, voronoiCells);
             }
         }
 
-        private void DrawVoronoiTiles(Vector3 pos, Quaternion rot)
-        {
-            foreach (VoronoiTile tile in voronoiTiles)
-            {
-                foreach (VoronoiTileEdge edge in tile.edges)
-                {
 
-                    Vector3 p1 = edge.p1.ToVector3();
-                    Vector3 p2 = edge.p2.ToVector3();
-                    p1 = pos + rot * (p1.normalized * radius);
-                    p2 = pos + rot * (p2.normalized * radius);
-
-                    Gizmos.DrawLine(p1, p2);
-                }
-            }
-        }
-
-        private void HighlightTileNeighbors(Vector3 pos, Quaternion rot)
-        {
-            foreach (VoronoiTile tile in voronoiTiles)
-            {
-                Gizmos.color = Color.red;
-                foreach (VoronoiTileEdge edge in tile.edges)
-                {
-
-                    Vector3 p1 = edge.p1.ToVector3();
-                    Vector3 p2 = edge.p2.ToVector3();
-                    p1 = pos + rot * (p1.normalized * radius);
-                    p2 = pos + rot * (p2.normalized * radius);
-
-                    Gizmos.DrawLine(p1, p2);
-
-                    Vector3 neighborPos = edge.oppositeTile.sitePos.ToVector3();
-                    neighborPos = pos + rot * (neighborPos.normalized * radius);
-
-                    Gizmos.DrawSphere(neighborPos, 0.05f);
-                }
-
-                break;
-            }
-        }
-
-        private void DrawVoronoiCells(Vector3 pos, Quaternion rot)
-        {
-            foreach (VoronoiCell3 cell in voronoiCells)
-            {
-                foreach (VoronoiEdge3 edge in cell.edges)
-                {
-
-                    Vector3 p1 = edge.p1.ToVector3();
-                    Vector3 p2 = edge.p2.ToVector3();
-                    p1 = pos + rot * (p1.normalized * radius);
-                    p2 = pos + rot * (p2.normalized * radius);
-
-                    Gizmos.DrawLine(p1, p2);
-                }
-            }
-        }
     }
 }

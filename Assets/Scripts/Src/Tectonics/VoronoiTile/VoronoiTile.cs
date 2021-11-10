@@ -14,13 +14,15 @@ namespace RNGalaxy
         public MyVector3 sitePos;
 
         public List<VoronoiTileEdge> edges = new List<VoronoiTileEdge>();
+        public List<int> vertices = new List<int>();
+        public TectonicPlate plate;
+        public int distanceToEdge;
+        public float elevation;
 
         public VoronoiTile(MyVector3 sitePos)
         {
             this.sitePos = sitePos;
         }
-
-
     }
 
     public class VoronoiTileEdge

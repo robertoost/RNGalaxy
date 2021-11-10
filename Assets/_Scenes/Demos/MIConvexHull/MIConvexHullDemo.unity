@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomSeed: 42
-  numPoints: 100
+  numPoints: 1535
   radius: 16
   jitter: 0
 --- !u!4 &361893739
@@ -375,10 +375,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2fdf34a8c0a2f44aee18481e9370e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomSeed: 42
-  numPoints: 4763
-  radius: 9.65
-  jitter: 0.652
+  randomSeed: 1
+  numPoints: 4907
+  radius: 7.83
+  jitter: 0.551
   UseMIConvexHull: 1
   StoreVoronoiNeighborData: 1
 --- !u!4 &1923029821

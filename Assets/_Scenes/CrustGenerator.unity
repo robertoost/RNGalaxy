@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seed: 54
   n: 50
-  radius: 8
+  radius: 4
   amplitude: 4
 --- !u!135 &530026550
 SphereCollider:

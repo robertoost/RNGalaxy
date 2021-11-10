@@ -6,7 +6,17 @@ namespace RNGalaxy
 {
     public class TectonicPlate
     {
-        List<PlateTile> plateTiles = new List<PlateTile>();
-        List<Vector3> vertices = new List<Vector3>();
+        public enum PlateType {
+            Continental = 0,
+            Oceanic = 1
+        }
+        
+        public List<VoronoiTile> plateTiles = new List<VoronoiTile>();
+        public PlateType plateType;
+        public TectonicPlate(VoronoiTile startTile)
+        {
+            startTile.plate = this;
+            plateTiles.Add(startTile);
+        }
     }
 }
