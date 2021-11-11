@@ -13,7 +13,7 @@ namespace RNGalaxy
 		public GUISkin guiSkin;
 
 
-		Rect windowRect = new Rect(0, 0, 200, 300);
+		Rect windowRect = new Rect(0, 0, 200, 385);
 
 		float[] formCache;
 		bool formChanged = false;
@@ -27,6 +27,9 @@ namespace RNGalaxy
 
 		float numPointsSliderValue = 2000f;
 		public int numPoints = 2000;
+
+		float numPlatesSliderValue = 30f;
+		public int numPlates = 30;
 
 		float radiusSliderValue = 7f;
 		public float radius = 7f;
@@ -43,10 +46,13 @@ namespace RNGalaxy
 		float baseLandHeightSliderValue = 0.5f;
 		public float baseLandHeight = 0.5f;
 
+		float rotationSpeed = 45f;
+
 		const int FIELD_WIDTH = 110;
 		const int LABEL_WIDTH = 160;
 
 		public PlanetGenerator planetGenerator;
+		public Rotator rotator;
 
 		void Start()
 		{
@@ -64,8 +70,10 @@ namespace RNGalaxy
 
 		private void Update()
 		{
+			rotator.speed = rotationSpeed;
+
 			// Compare this cache to the previous one.
-			float[] formValues = new float[] { randomSeed, numPoints, radius, tileJitter, mountainElevation, roughness, baseLandHeightSliderValue};
+			float[] formValues = new float[] { randomSeed, numPoints, numPlates, radius, tileJitter, mountainElevation, roughness, baseLandHeightSliderValue};
 
 			if (formCache == null)
             {
@@ -108,7 +116,7 @@ namespace RNGalaxy
 
 		void UpdatePlanet()
         {
-			planetGenerator.UpdatePlanet(randomSeed, numPoints, radius, tileJitter, mountainElevation, roughness, baseLandHeight);
+			planetGenerator.UpdatePlanet(randomSeed, numPoints, numPlates, radius, tileJitter, mountainElevation, roughness, baseLandHeight);
         }
 
         void DoMyWindow(int windowID)
@@ -123,16 +131,19 @@ namespace RNGalaxy
 
 			numPoints = Slider(ref numPointsSliderValue, "Nr. of points", 90, 200, 10000);
 
-			radius = Slider(ref radiusSliderValue, "Radius", 125, 6f, 8f);
+			numPlates = Slider(ref numPlatesSliderValue, "Nr. of plates", 125, 1, 200);
 
-			tileJitter = Slider(ref tileJitterSliderValue, "Tile jitter", 160, 0f, 1f);
+			radius = Slider(ref radiusSliderValue, "Radius", 160, 6f, 8f);
 
-			mountainElevation = Slider(ref mountainElevationSliderValue, "Mountain elevation", 195, 0f, 1f);
+			tileJitter = Slider(ref tileJitterSliderValue, "Tile jitter", 195, 0f, 1f);
 
-			roughness = Slider(ref roughnessSliderValue, "Terrain roughness", 230, 0f, 1f);
+			mountainElevation = Slider(ref mountainElevationSliderValue, "Mountain elevation", 230, 0f, 1f);
 
-			baseLandHeight = Slider(ref baseLandHeightSliderValue, "Base land height", 265, 0.1f, 2f);
+			roughness = Slider(ref roughnessSliderValue, "Terrain roughness", 265, 0f, 1f);
 
+			baseLandHeight = Slider(ref baseLandHeightSliderValue, "Base land height", 300, 0.1f, 2f);
+
+			rotationSpeed = Slider(ref rotationSpeed, "RotationSpeed", 335, 0f, 500);
 
 			GUI.DragWindow(new Rect(0, 0, 10000, 10000));
 		}
@@ -152,7 +163,15 @@ namespace RNGalaxy
         {
 			GUI.Label(new Rect(20, y, LABEL_WIDTH, 20), label);
 			sliderValue = GUI.HorizontalSlider(new Rect(15, y + 20, FIELD_WIDTH, 30), sliderValue, min, max);
-			GUI.Label(new Rect(140, y + 20, 60, 30), $"{Mathf.Round(sliderValue * 1000) / 1000}");
+
+			// Easter egg :)
+			string valueLabel = $"{Mathf.Round(sliderValue * 1000) / 1000}";
+			if (label == "RotationSpeed" && Mathf.Approximately(sliderValue, 500f))
+            {
+				valueLabel = "AAAA!!!";
+            }
+
+			GUI.Label(new Rect(140, y + 20, 70, 30), valueLabel);
 
 			return sliderValue;
 		}

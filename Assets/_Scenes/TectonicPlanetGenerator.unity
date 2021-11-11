@@ -341,12 +341,14 @@ MonoBehaviour:
   guiSkin: {fileID: 11400000, guid: 9705c0e7595e14d42bcd9e476468d8d7, type: 2}
   randomSeed: 42
   numPoints: 2000
+  numPlates: 30
   radius: 7
   tileJitter: 0
   mountainElevation: 0.5
   roughness: 1
   baseLandHeight: 0.5
   planetGenerator: {fileID: 1816760621}
+  rotator: {fileID: 1816760620}
 --- !u!114 &747172409
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -36,9 +36,10 @@ namespace RNGalaxy
         public List<TectonicPlate> plates;
         [System.NonSerialized]
         public Vector3[] points;
-        public Planet(int numPoints, float radius, float jitter, int randomSeed = 42)
+        public Planet(int numPoints, float radius, float jitter, int numPlates=30, int randomSeed = 42)
         {
             this.numPoints = numPoints;
+            this.numPlates = numPlates;
             this.radius = radius;
             this.tileJitter = jitter;
             this.randomSeed = randomSeed;
