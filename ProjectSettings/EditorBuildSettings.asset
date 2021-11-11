@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Scenes/TectonicPlanetGenerator.unity
+    guid: 30f1e372ae006754b8e253111f4b2209
   m_configObjects: {}

@@ -53,11 +53,14 @@ namespace RNGalaxy
         }
 
         private void UpdatePlanet() {
+            Random.InitState(planet.randomSeed);
+            landColor = Random.ColorHSV(0, 1, 0.75f, 1f);
+            waterColor = Random.ColorHSV(0, 1, 0.75f, 1f);
+
             // Also initiates the random state.
             planet.GenerateTectonicPlates();
 
-            landColor = Random.ColorHSV(0, 1, 0.75f, 1f);
-            waterColor = Random.ColorHSV(0, 1, 0.75f, 1f);
+
             landMeshRenderer.material.color = landColor;
             waterMeshRenderer.material.color = waterColor;
 
