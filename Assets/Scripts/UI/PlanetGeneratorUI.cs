@@ -131,6 +131,9 @@ namespace RNGalaxy
 
 			roughness = Slider(ref roughnessSliderValue, "Terrain roughness", 230, 0f, 1f);
 
+			baseLandHeight = Slider(ref baseLandHeightSliderValue, "Base land height", 265, 0f, 2f);
+
+
 			GUI.DragWindow(new Rect(0, 0, 10000, 10000));
 		}
 
