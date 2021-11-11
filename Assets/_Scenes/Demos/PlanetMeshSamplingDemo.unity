@@ -150,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 93151448}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.995, y: 0.995, z: 0.995}
+  m_LocalScale: {x: 0.999, y: 0.999, z: 0.999}
   m_Children: []
   m_Father: {fileID: 1720013989}
   m_RootOrder: 0
@@ -401,13 +401,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planet:
     randomSeed: 42
-    numPoints: 5000
+    numPoints: 200
     radius: 8
     numPlates: 30
-    jitter: 0.5
   planetMesh: {fileID: 4300000, guid: ff047e5f716739b4198928804c2df822, type: 2}
-  elevationAmplification: 0.058
-  amplitude: 1
+  baseLandHeight: 1
+  mountainAmplitude: 0.37
+  roughnessAmplitude: 1
 --- !u!4 &1777781003
 Transform:
   m_ObjectHideFlags: 0

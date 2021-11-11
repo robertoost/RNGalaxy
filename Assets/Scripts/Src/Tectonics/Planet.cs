@@ -16,7 +16,7 @@ namespace RNGalaxy
     {
         public int randomSeed = 42;
         
-        [Range(100, 10000)]
+        [Range(200, 10000)]
         public int numPoints = 100;
 
         [Range(6f, 8f)]
@@ -26,10 +26,9 @@ namespace RNGalaxy
         public int numPlates = 30;
         
         [Range(0, 1)]
-        public float jitter = 0f;
+        public float tileJitter = 0f;
 
-        const float ELEVATION_MIN = 1f;
-        const float ELEVATION_MAX = 1.5f;
+        const float MOUNTAIN_ELEVATION = 5f;
 
         private ConvexHull<DefaultVertex, DefaultConvexFace<DefaultVertex>> convexHull;
         [System.NonSerialized]
@@ -41,7 +40,7 @@ namespace RNGalaxy
         {
             this.numPoints = numPoints;
             this.radius = radius;
-            this.jitter = jitter;
+            this.tileJitter = jitter;
             this.randomSeed = randomSeed;
         }
 
@@ -60,7 +59,7 @@ namespace RNGalaxy
         private HalfEdgeData3 CreateConvexHull()
         {
             // Convert points to a list of arrays containing doubles.
-            points = FibionacciSphere.GeneratePoints(numPoints, radius, jitter);
+            points = FibionacciSphere.GeneratePoints(numPoints, radius, tileJitter);
             List<double[]> convertedPoints = points.ToDoubleArrayList();
 
             // Generate a quick convex hull.
@@ -229,10 +228,10 @@ namespace RNGalaxy
                     bool collision;
                     if (plate.plateType != otherPlate.plateType)
                     {
-                        collision = Random.Range(0, 1) > 0.9f;
+                        collision = Random.Range(0f, 1f) > 0.9f;
                     } else
                     {
-                        collision = Random.Range(0, 1) > 0.4f;
+                        collision = Random.Range(0f, 1f) > 0.4f;
                     }
                     collisionList.Add(collision);
                 }
@@ -244,8 +243,7 @@ namespace RNGalaxy
 
                 foreach (VoronoiTile tile in plate.plateTiles)
                 {
-                    int sign = plate.plateType == PlateType.Continental ? 1 : -3;
-                    float elevation = sign * Random.Range(ELEVATION_MIN, ELEVATION_MAX);
+                    float elevation = plate.plateType == PlateType.Continental ? 1f : -1f;
 
                     tile.elevation = elevation;
 
@@ -259,14 +257,12 @@ namespace RNGalaxy
                         //if (DetectCollision(otherEdge.tile.plate, plate))
                         if (collision)
                         {
-                            tile.elevation = 8f;
+                            tile.elevation = MOUNTAIN_ELEVATION;
                         }
                     }
                 }
             }
         }
-
-        
 
         // TODO: True collision detection.
         // Dummy method. Should use actual geoditical movement, but uses basic 2d directions instead.
