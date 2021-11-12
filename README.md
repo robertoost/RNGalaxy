@@ -1,5 +1,6 @@
 # RNGalaxy 🌍🌑🌟🌞🚀
 A procedural tectonic planet simulator.
+![planet-gif](https://user-images.githubusercontent.com/33265853/141481842-aa399580-8f63-459e-95ed-253a944a118c.gif)
 
 # Getting Started
 
