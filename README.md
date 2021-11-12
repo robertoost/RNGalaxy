@@ -22,7 +22,7 @@ A procedural tectonic planet simulator.
 * Computational Geometry (https://github.com/Habrador/Computational-geometry)
 * MIConvexHull (https://designengrlab.github.io/MIConvexHull/)
 
-I created a custom HalfEdgeMapper class that converts the convex hull from MIConvexHull and prepares it for the Delaunay3DToVoronoi algorithm from Habrador's Computational Geometry library. I also altered the Delaunay3DToVoronoi algorithm from that same package in order to link voronoi cells to their neighbors. The code for that can be found in the Delaunay3DToVoronoiTile function. This resulted in a significant increase in performance.
+I created a custom HalfEdgeMapper class that converts the convex hull from MIConvexHull and prepares it for the Delaunay3DToVoronoi algorithm from Habrador's Computational Geometry library. I also altered the Delaunay3DToVoronoi algorithm from that same package in order to link voronoi cells to their neighbors. The code for that can be found in the Delaunay3DToVoronoiTile function. This resulted in a significant increase in performance. The following screenshot is for the generation of a 10.000 point convex hull from before the changes, and after.
 
 ![image](https://user-images.githubusercontent.com/33265853/141485638-4f5c0614-fbba-4f2d-98af-371dc07ea1bf.png)
 
