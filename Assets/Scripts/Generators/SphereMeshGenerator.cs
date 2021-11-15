@@ -15,7 +15,7 @@ namespace RNGalaxy
         void Start()
         {
             // Convert points to a list of arrays containing doubles.
-            Vector3[] points = FibionacciSphere.GeneratePoints(vertices, radius, 0);
+            Vector3[] points = FibonacciSphere.GeneratePoints(vertices, radius, 0);
             List<double[]> convertedPoints = points.ToDoubleArrayList();
 
             // Generate a quick convex hull.

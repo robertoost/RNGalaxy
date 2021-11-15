@@ -23,7 +23,7 @@ namespace RNGalaxy
         {
             Random.InitState(randomSeed);
             //Stopwatch stopwatch = Stopwatch.StartNew();
-            Vector3[] points = FibionacciSphere.GeneratePoints(numPoints, 8, jitter);
+            Vector3[] points = FibonacciSphere.GeneratePoints(numPoints, 8, jitter);
             List<double[]> convertedPoints = ConvertPoints(points);
 
             convexHull = GenerateConvexHull(convertedPoints);

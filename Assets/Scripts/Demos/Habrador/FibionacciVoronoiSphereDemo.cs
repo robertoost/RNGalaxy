@@ -8,7 +8,7 @@ using static Habrador_Computational_Geometry.Delaunay3DToVoronoiAlgorithm;
 
 namespace RNGalaxy
 {
-    public class FibionacciVoronoiSphere : MonoBehaviour
+    public class FibonacciVoronoiSphere : MonoBehaviour
     {
         public int randomSeed = 42;
         [Range(100, 10000)]
@@ -35,9 +35,6 @@ namespace RNGalaxy
             Random.InitState(randomSeed);
 
             GenerateSphere();
-
-
-            //transform.localScale = Vector3.one * radius * 2;
         }
 
         // Update is called once per frame
@@ -47,7 +44,7 @@ namespace RNGalaxy
             stopWatch.Start();
 
             // Convert the points to MyVector3 and then normalize every point.
-            points = FibionacciSphere.GeneratePoints(numPoints, radius, jitter: jitter);
+            points = FibonacciSphere.GeneratePoints(numPoints, radius, jitter: jitter);
 
             HashSet<MyVector3> pointsSet = new HashSet<Vector3>(points).ToMyVector3();
             Normalizer3 normalizer = new Normalizer3(new List<MyVector3>(pointsSet));
@@ -73,20 +70,6 @@ namespace RNGalaxy
             convexHull = normalizer.UnNormalize(convexHull);
         }
 
-
-        private void AssignEdges()
-        {
-            //// Get vertices from convex hull in an array. Should be equal to fibionacci points.
-            //HalfEdgeVertex3[] convexHullVertices = new HalfEdgeVertex3[convexHull.verts.Count];
-            //convexHull.verts.CopyTo(convexHullVertices);
-
-            //// Get voronoi cells in an array.
-            //VoronoiCell3[] voronoiCellArray = new VoronoiCell3[voronoiCells.Count];
-            //voronoiCells.CopyTo(voronoiCellArray);
-
-            // The voronoi cells should be in the same
-        }
-
         private void OnDrawGizmos()
         {
             if (!Application.isPlaying)
@@ -103,48 +86,6 @@ namespace RNGalaxy
                     Gizmos.DrawLine(p1, p2);
                 }
             }
-
-            //Gizmos.color = Color.blue;
-
-            //foreach (Vector3 point in points)
-            //{
-            //    Gizmos.DrawSphere(transform.rotation * point, 0.01f);
-            //}
-
-            //Gizmos.color = Color.red;
-            //int i = 0;
-
-            //foreach (HalfEdgeVertex3 vert in convexHull.verts)
-            //{
-            //    i++;
-
-            //    Gizmos.DrawWireSphere(vert.position.ToVector3(), 0.1f);
-
-            //    //HashSet<HalfEdge3> edges = vert.GetEdgesPointingToVertex(convexHull);
-            //    //foreach(HalfEdge3 edge in edges)
-            //    //{
-            //    //    Vector3 p1 = transform.rotation * edge.v.position.ToVector3();
-            //    //    Vector3 p2 = transform.rotation * edge.nextEdgew.v.position.ToVector3();
-
-            //    //    Gizmos.DrawLine(p1, p2);
-
-            //    //}
-            //    if (i == 24)
-            //        break;
-            //}
-            //int j = 0;
-
-
-
-            //Gizmos.color = Color.magenta;
-
-            //foreach (VoronoiCell3 cell in voronoiCells)
-            //{
-            //    j++;
-            //    Gizmos.DrawSphere(cell.sitePos.ToVector3(), 0.05f);
-            //    if (j == 20)
-            //        break;
-            //}
         }
     }
 }

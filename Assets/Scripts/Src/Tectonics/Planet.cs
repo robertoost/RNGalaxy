@@ -60,7 +60,7 @@ namespace RNGalaxy
         private HalfEdgeData3 CreateConvexHull()
         {
             // Convert points to a list of arrays containing doubles.
-            points = FibionacciSphere.GeneratePoints(numPoints, radius, tileJitter);
+            points = FibonacciSphere.GeneratePoints(numPoints, radius, tileJitter);
             List<double[]> convertedPoints = points.ToDoubleArrayList();
 
             // Generate a quick convex hull.

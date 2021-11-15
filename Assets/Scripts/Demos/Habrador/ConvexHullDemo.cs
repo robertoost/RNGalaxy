@@ -15,7 +15,7 @@ namespace RNGalaxy
 
         private void Start()
         {
-            points = FibionacciSphere.GeneratePointSet(n, radius);
+            points = FibonacciSphere.GeneratePointSet(n, radius);
             convexHull = IterativeHullAlgorithm3D.GenerateConvexHull(points, true);
 
             Mesh mesh = convexHull.ConvertToMyMesh("Planet", MyMesh.MeshStyle.HardAndSoftEdges).ConvertToUnityMesh(true, "Planet");

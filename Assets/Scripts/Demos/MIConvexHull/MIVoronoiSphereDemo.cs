@@ -39,7 +39,7 @@ namespace RNGalaxy
             UnityEngine.Random.InitState(randomSeed);
             
             // Convert points to a list of arrays containing doubles.
-            Vector3[] points = FibionacciSphere.GeneratePoints(numPoints, radius, jitter);
+            Vector3[] points = FibonacciSphere.GeneratePoints(numPoints, radius, jitter);
             List<double[]> convertedPoints = points.ToDoubleArrayList();
 
             Stopwatch stopwatch = Stopwatch.StartNew();
